@@ -23,17 +23,26 @@ Files:
    aoi_pull_target.java, Line 1390-1406:
 
    static int node_num = 40; //Number of nodes
-   static int target_num = 52; //number of targets of interest
-   static int pkt_header = 12; //pkt header length
-   static int coverage_range = 24; //coverage range of each node
-   static int wireless_capacity = 100; // bandwidth constraint
-   static double average_cover_num = 7.8; // The average number of nodes that can cover each target
-   static int working_duration = 1000; // length of monitoring duration
-   static int avg_query_interval = 60; // average query interval
-   static int avg_query_length = 4; //average query length
-   static int energy_buffer = 300; //energy capacity
-   static int evaluate_slot = 4; // The energy data to be used, range:4-10, 4 refers to the data captured from 5:51am to 6:07am, 5 refers to the data captured from 6:08am to 6:24am, 6 refers to the data captured from 6:25am to 6:42am ... 10 refers to the data captured from 7:33 am to 7:49am.  
 
+   static int target_num = 52; //number of targets of interest
+   
+   static int pkt_header = 12; //pkt header length
+   
+   static int coverage_range = 24; //coverage range of each node
+   
+   static int wireless_capacity = 100; // bandwidth constraint
+   
+   static double average_cover_num = 7.8; // The average number of nodes that can cover each target
+   
+   static int working_duration = 1000; // length of monitoring duration
+   
+   static int avg_query_interval = 60; // average query interval
+   
+   static int avg_query_length = 4; //average query length
+   
+   static int energy_buffer = 300; //energy capacity
+   
+   static int evaluate_slot = 4; // The energy data to be used, range:4-10, 4 refers to the data captured from 5:51am to 6:07am, 5 refers to the data captured from 6:08am to 6:24am, 6 refers to the data captured from 6:25am to 6:42am ... 10 refers to the data captured from 7:33 am to 7:49am.  
 
 4. Get the results: Run "aoi_pull_target.java". All algorithms will repeat for 100 times and then output the simulation results.
    
