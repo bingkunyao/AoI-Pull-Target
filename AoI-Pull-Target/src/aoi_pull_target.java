@@ -428,7 +428,7 @@ public class aoi_pull_target {
 	}
 
 	public static double check_result(int node_num, node[] all_node_model, int target_num, target[] all_target_model,
-			int working_duration, int wireless_capacity) {
+			int working_duration, int wireless_restriction) {
 		int[] last_monitor = new int[target_num];
 		for (int i = 0; i < target_num; i++) {
 			last_monitor[i] = 0;
@@ -477,7 +477,7 @@ public class aoi_pull_target {
 				total_coverage_time += (double) (this_t.query_number[i]);
 			}
 
-			if (current_capacity > wireless_capacity) {
+			if (current_capacity > wireless_restriction) {
 				System.out.println("Violate the node number constraint!");
 			}
 			for (int j = 1; j <= target_num; j++) {
@@ -498,7 +498,7 @@ public class aoi_pull_target {
 	}
 
 	public static double check_result_2(int node_num, node[] all_node_model, int target_num, target[] all_target_model,
-			int working_duration, int wireless_capacity) {
+			int working_duration, int wireless_restriction) {
 		int[] last_monitor = new int[target_num];
 		int total_active = 0;
 
@@ -520,7 +520,7 @@ public class aoi_pull_target {
 
 			for (int j = 1; j <= node_num; j++) {
 				node this_node = all_node_model[j - 1];
-				if (energy[j - 1] >= 100 && wireless_capacity - current_capacity >= this_node.data_rate) {
+				if (energy[j - 1] >= 100 && wireless_restriction - current_capacity >= this_node.data_rate) {
 					current_capacity += this_node.data_rate;
 					total_active++;
 					for (int k = 0; k < this_node.cover_target_num; k++) {
@@ -619,7 +619,7 @@ public class aoi_pull_target {
 	}
 
 	public static double check_result_3_original(int node_num, node[] all_node_model, int target_num,
-			target[] all_target_model, int working_duration, int wireless_capacity, int maximum_aoi, double lamuda) {
+			target[] all_target_model, int working_duration, int wireless_restriction, int maximum_aoi, double lamuda) {
 
 		MDP_policy_iteration[] all_node_MDP_model = new MDP_policy_iteration[node_num];
 
@@ -907,7 +907,7 @@ public class aoi_pull_target {
 			for (int j = 1; j <= node_num; j++) {
 				node this_node = all_node_model[j - 1];
 				MDP_policy_iteration this_node_MDP_model = all_node_MDP_model[j - 1];
-				if (energy[j - 1] >= 100 && wireless_capacity - current_capacity >= this_node.data_rate) {
+				if (energy[j - 1] >= 100 && wireless_restriction - current_capacity >= this_node.data_rate) {
 					int b1 = energy[j - 1];
 					int b2 = i - last_active[j - 1];
 					if (b2 > maximum_aoi) {
@@ -956,7 +956,7 @@ public class aoi_pull_target {
 			int current_capacity = 0;
 			for (int j = 1; j <= node_num; j++) {
 				node this_node = all_node_model[j - 1];
-				if (energy[j - 1] >= 100 && wireless_capacity - current_capacity >= this_node.data_rate) {
+				if (energy[j - 1] >= 100 && wireless_restriction - current_capacity >= this_node.data_rate) {
 					if (plan_active_slot.get(j).contains(i) == true) {
 						current_capacity += this_node.data_rate;
 						energy[j - 1] -= 100;
@@ -987,7 +987,7 @@ public class aoi_pull_target {
 	}
 
 	public static double check_result_greedy(int node_num, node[] all_node_model, int target_num,
-			target[] all_target_model, int working_duration, int wireless_capacity, int maximum_aoi, double lamuda) {
+			target[] all_target_model, int working_duration, int wireless_restriction, int maximum_aoi, double lamuda) {
 		Map<Integer, ArrayList<Integer>> plan_active_slot = new HashMap<Integer, ArrayList<Integer>>();
 		for (int i = 1; i <= node_num; i++) {
 			plan_active_slot.put(i, new ArrayList<Integer>());
@@ -1017,7 +1017,7 @@ public class aoi_pull_target {
 				int candidate_cover_aoi = 0;
 				for (int j = 1; j <= node_num; j++) {
 					node this_node = all_node_model[j - 1];
-					if (energy[j - 1] >= 100 && wireless_capacity - current_capacity >= this_node.data_rate) {
+					if (energy[j - 1] >= 100 && wireless_restriction - current_capacity >= this_node.data_rate) {
 						int ra = check_remain_aoi(j, i, all_node_model, all_target_model, is_covered, last_monitor);
 						if (ra > candidate_cover_aoi) {
 							candidate_node_num = j;
@@ -1066,7 +1066,7 @@ public class aoi_pull_target {
 			int current_capacity = 0;
 			for (int j = 1; j <= node_num; j++) {
 				node this_node = all_node_model[j - 1];
-				if (energy[j - 1] >= 100 && wireless_capacity - current_capacity >= this_node.data_rate) {
+				if (energy[j - 1] >= 100 && wireless_restriction - current_capacity >= this_node.data_rate) {
 					if (plan_active_slot.get(j).contains(i) == true) {
 						current_capacity += this_node.data_rate;
 						energy[j - 1] -= 100;
@@ -1394,7 +1394,7 @@ public class aoi_pull_target {
 
 	static String energy_data_file = "D:\\\\indoorEHdatabase\\\\2019_08_processed\\\\processed\\\\data1119";
 
-	static int wireless_capacity = 10;
+	static int wireless_restriction = 10;
 	static double average_cover_num = 7.8;
 	static int working_duration = 1000;
 	static int avg_query_interval = 60;
@@ -1461,7 +1461,7 @@ public class aoi_pull_target {
 
 				// output_network_topology(node_num, all_node_model, target_num,
 				// all_target_model, working_duration,
-				// wireless_capacity, energy_buffer);
+				// wireless_restriction, energy_buffer);
 
 				// Run the algorithm.
 				long startTime = System.currentTimeMillis();
@@ -1517,7 +1517,7 @@ public class aoi_pull_target {
 							} else {
 								int can_box = 0;
 								for (int j = 1; j <= bo; j++) {
-									if (wireless_capacity - current_capacity[100 + j] >= ca) {
+									if (wireless_restriction - current_capacity[100 + j] >= ca) {
 										can_box = j;
 									}
 								}
@@ -1533,7 +1533,7 @@ public class aoi_pull_target {
 							}
 						}
 						Map<Integer, Integer> return_n = push_back(all_node_model, all_target_model, active_slot_re,
-								current_capacity, working_duration, wireless_capacity);
+								current_capacity, working_duration, wireless_restriction);
 						consider_set.clear();
 						for (Integer p : return_n.keySet()) {
 							consider_set.put(p, return_n.get(p));
@@ -1554,7 +1554,7 @@ public class aoi_pull_target {
 							break;
 						} else {
 							Map<Integer, Integer> return_n = push_back(all_node_model, all_target_model, active_slot_re,
-									current_capacity, working_duration, wireless_capacity);
+									current_capacity, working_duration, wireless_restriction);
 							consider_set.clear();
 							for (Integer p : return_n.keySet()) {
 								consider_set.put(p, return_n.get(p));
@@ -1632,7 +1632,7 @@ public class aoi_pull_target {
 								+ 1][this_node.energy_capacity + 1];
 
 						for (int w = working_duration; w >= 1; w--) {
-							int remain_capacity = wireless_capacity - current_capacity[w];
+							int remain_capacity = wireless_restriction - current_capacity[w];
 							int max_inter = Math.min(last_active_distance[w], current_maximum_age);
 
 							if (w == working_duration) {
@@ -1824,16 +1824,16 @@ public class aoi_pull_target {
 				}
 
 				double r_02 = check_result(node_num, all_node_model, target_num, all_target_model, working_duration,
-						wireless_capacity);
+						wireless_restriction);
 
 				double r_tmc = check_result_2(node_num, all_node_model, target_num, all_target_model, working_duration,
-						wireless_capacity);
+						wireless_restriction);
 
 				double r_greedy = check_result_greedy(node_num, all_node_model, target_num, all_target_model,
-						working_duration, wireless_capacity, 20, 0.95);
+						working_duration, wireless_restriction, 20, 0.95);
 
 				double r_tcom = check_result_3_original(node_num, all_node_model, target_num, all_target_model,
-						working_duration, wireless_capacity, 20, 0.95);
+						working_duration, wireless_restriction, 20, 0.95);
 
 				aoi_0 += r_02;
 				aoi_tmc += r_tmc;
